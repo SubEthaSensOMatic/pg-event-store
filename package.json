@@ -3,9 +3,14 @@
   "version": "1.0.0-rc.1",
   "main": "./src/index.js",
   "license": "MIT",
+  "homepage": "https://github.com/SubEthaSensOMatic/pg-event-store#readme",
   "author": {
     "name": "Ajid Welzel",
     "email": "ajid.welzel@gmail.com"
+  },
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/SubEthaSensOMatic/pg-event-store.git"
   },
   "scripts": {
     "lint": "eslint src/**"
