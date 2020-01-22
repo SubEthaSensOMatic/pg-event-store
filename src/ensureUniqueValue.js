@@ -1,22 +1,21 @@
-'use strict';
-
 const { isString, isUndefinedOrNull } = require('./typeChecks');
-
 
 module.exports = async(pgp, database, schema, scopeId, aggregateId, value) => {
 
   if (!isString(scopeId))
-    throw new Error('Ungültiger Namensbereich!');
+    throw new Error('Invalid parameter [scopeId]!');
+
   if (!isString(aggregateId))
-    throw new Error('Ungültige  Aggregat Id!');
+    throw new Error('Invalid parameter [aggregateId]!');
+
   if (isUndefinedOrNull(value))
-    throw new Error('Ungültiger Wert!');
+    throw new Error('Invalid parameter [value]');
 
   const row = await database.oneOrNone(`
-        INSERT INTO "${schema}".uniques (scopeid, aggregateid, value)
-        VALUES ($(scopeId), $(aggregateId), $(value))
-        ON CONFLICT DO NOTHING
-        RETURNING scopeid `, {
+    INSERT INTO "${schema}".uniques (scopeid, aggregateid, value)
+    VALUES ($(scopeId), $(aggregateId), $(value))
+    ON CONFLICT DO NOTHING
+    RETURNING scopeid `, {
     scopeId, aggregateId, value,
   });
 

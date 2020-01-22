@@ -13,7 +13,8 @@
     "url" : "https://github.com/SubEthaSensOMatic/pg-event-store.git"
   },
   "scripts": {
-    "lint": "eslint src/**"
+    "lint": "eslint src/**",
+    "lintfix": "eslint src/** --fix"
   },
   "dependencies": {
     "ajv": "^6.10.2",

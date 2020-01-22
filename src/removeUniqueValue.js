@@ -1,20 +1,18 @@
-'use strict';
-
 const { isString } = require('./typeChecks');
-
 
 module.exports = async(pgp, database, schema, scopeId, aggregateId) => {
 
   if (!isString(scopeId))
-    throw new Error('Ungültiger Namensbereich!');
+    throw new Error('Invalid parameter [scopeId]!');
+
   if (!isString(aggregateId))
-    throw new Error('Ungültige  Aggregat Id!');
+    throw new Error('Invalid parameter [aggregateId]!');
 
   const row = await database.oneOrNone(`
-        DELETE FROM "${schema}".uniques
-        WHERE scopeid = $(scopeId)
-          AND aggregateid = $(aggregateId)
-        RETURNING scopeid`, {
+    DELETE FROM "${schema}".uniques
+    WHERE scopeid = $(scopeId)
+      AND aggregateid = $(aggregateId)
+    RETURNING scopeid`, {
     scopeId, aggregateId,
   });
 

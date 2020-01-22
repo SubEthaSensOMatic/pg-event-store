@@ -12,4 +12,3 @@ or with yarn
 ```
 yarn add pg-event-store
 ```
-

@@ -1,5 +1,3 @@
-'use strict';
-
 const { Writable } = require('stream');
 const { isPromise } = require('./typeChecks');
 const QueryStream = require('pg-query-stream');
@@ -16,7 +14,6 @@ const validateOptions = ajv.compile({
   },
 });
 
-
 const rowToEvent = row => Object.freeze({
   sequenceId: row.sequenceid,
   eventType: row.eventtype,
@@ -29,7 +26,7 @@ const rowToEvent = row => Object.freeze({
   payload: row.payload,
 });
 
-const eventToCallback = callback => new Writable({
+const eventWritable = callback => new Writable({
   objectMode: true,
   write: (row, _, done) => {
     (async() => {
@@ -50,7 +47,7 @@ const eventToCallback = callback => new Writable({
 module.exports = (pgp, database, schema, options, callback) => new Promise((resolve, reject) => {
   try {
     if (!validateOptions(options))
-      throw new Error('Ungültige Optionen!');
+      throw new Error('Invalid parameter [options]!');
 
     let query = `SELECT * FROM "${schema}".events WHERE 1=1 `;
 
@@ -73,7 +70,7 @@ module.exports = (pgp, database, schema, options, callback) => new Promise((reso
       qs,
       stream => {
         stream
-          .pipe(eventToCallback(callback))
+          .pipe(eventWritable(callback))
           .on('error', err => reject(err))
           .on('finish', () => resolve());
 

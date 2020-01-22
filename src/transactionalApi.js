@@ -1,15 +1,13 @@
-'use strict';
-
 const { isPromise, isFunction } = require('./typeChecks');
 const api = require('./api');
 
-module.exports = async(pgp, database, schema, action) => {
-  if (!isFunction(action))
-    throw Error('Transaktionale Aktion muss vom Type [function] sein!');
+module.exports = async(pgp, database, schema, callback) => {
+  if (!isFunction(callback))
+    throw Error('Transactional callback has to be of type [function]!');
 
   return await database.tx(async t => {
 
-    let result = action(api(pgp, t, schema));
+    let result = callback(api(pgp, t, schema));
 
     if (isPromise(result))
       result = await result;

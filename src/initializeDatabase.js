@@ -1,6 +1,3 @@
-
-'use strict';
-
 const pgp = require('pg-promise')({});
 const moment = require('moment');
 const { isString } = require('./typeChecks');
